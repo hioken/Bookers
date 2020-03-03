@@ -1,0 +1,48 @@
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<h1>Books</h1>
+
+<table cellpadding="2" cellspacing="5">
+	<tr>
+		<th>Title</th>
+		<th>Body</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+
+	<% @books.each do |book| %>
+
+	<tr>
+		<td><%= book.title %></td>
+		<td><%= book.body %></td>
+		<td><%= link_to 'Show', "/books/#{book.id}" %></td>
+		<td><%= link_to 'edit', "/books/#{book.id}/edit" %></td>
+		<td><%= link_to 'Destroy', "/books/#{book.id}", method: :delete, "data-confirm" => "正気か？" %></td>
+	</tr>
+
+	<% end %>
+</table>
+
+<%= form_for(@book, url: '/books') do |f| %>
+
+<% if @book.errors.any? %>
+    <div class = "alert alert-warning">
+        <ul>
+            <% @book.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+        </ul>
+    </div>
+<% end %>
+
+<p>Title</p>
+	<%= f.text_field :title %>
+
+	<p>Body</p>
+	<%= f.text_area :body %>
+
+	<%= f.submit '投稿' %>
+<% end %>
